@@ -4,10 +4,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Local CashFlow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
   <script src="./app.js" defer></script>
 </head>
 <body>
-  <h1>Hello World!</h1>
+  <main class="app-container">
+    <header class="dashboard">
+      <h1 class="app-title">CashFlow</h1>
+      <div class="balance-card">
+        <p>Total Balance</p>
+        <h2 id="total-balance">Rp0,00</h2>
+        <div class="summary">
+          <div class="summary-box income-box">
+            <p>Income</p>
+            <h3 id="total-income">+Rp0,00</h3>
+          </div>
+          <div class="summary-box expense-box">
+            <p>Expense</p>
+            <h3 id="total-expense">-Rp0,00</h3>
+          </div>
+        </div>
+      </div>
+    </header>
+    <section class="transaction-form-section">
+      <h3>Add New Transaction</h3>
+      <form id="transaction-form" autocomplete="off">
+        <input type="text" id="desc-input" placeholder="Description (e.g. Salary, Coffee)" required>
+        <div class="form-row">
+          <input type="number" id="amount-input" placeholder="Amount" min="1" step="1" required>
+          <select id="type-input" required>
+            <option value="income">Income (+)</option>
+            <option value="expense">Expense (-)</option>
+          </select>
+        </div>
+        <button type="submit" id="add-btn">Add Transaction</button>
+      </form>
+    </section>
+    <section class="history-section">
+      <h3>History</h3>
+      <ul id="transaction-list">
+        <li class="transaction-item expense">
+          <span class="desc">Coffee</span>
+          <span class="amount">-Rp20.000,00</span>
+          <button class="btn-delete" data-id="1">&#x2715;</button>
+        </li>
+      </ul>
+    </section>
+  </main>
 </body>
 </html>
