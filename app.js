@@ -55,5 +55,16 @@ form.addEventListener('submit', e => {
   form.reset();
   renderTransactions();
 });
+transactionList.addEventListener('click', e => {
+  e.preventDefault();
+
+  if (e.target.classList.contains('btn-delete')) {
+    if (!confirm('Delete this transaction?')) return;
+    const transactionId = e.target.dataset.id;
+    transactions = transactions.filter(transaction => transaction.id !== transactionId);
+    updateLocalStorage();
+    renderTransactions();
+  }
+});
 
 renderTransactions();
