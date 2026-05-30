@@ -8,6 +8,7 @@ const incomeText = document.getElementById('total-income');
 const expenseText = document.getElementById('total-expense');
 
 let transactions = JSON.parse(localStorage.getItem('cashflow_data')) || [];
+let editId = null;
 
 const updateLocalStorage = () => {
   localStorage.setItem('cashflow_data', JSON.stringify(transactions))
@@ -43,14 +44,30 @@ form.addEventListener('submit', e => {
   const amountValue = parseInt(amountInput.value);
   const typeValue = typeInput.value;
 
-  const newTransaction = {
-    id: Date.now().toString(),
-    desc: descValue,
-    amount: amountValue,
-    type: typeValue
-  };
+  if (editId) {
+    transactions = transactions.map(transaction => {
+      if (transaction.id === editId) {
+        return {
+          id: transaction.id,
+          desc: descValue,
+          amount: amountValue,
+          type: typeValue
+        };
+      }
+      return transaction;
+    });
+    editId = null;
+    document.getElementById('add-btn').textContent = 'Add Transaction';
+  } else {
+    const newTransaction = {
+      id: Date.now().toString(),
+      desc: descValue,
+      amount: amountValue,
+      type: typeValue
+    };
+    transactions.push(newTransaction);
+  }
 
-  transactions.push(newTransaction);
   updateLocalStorage();
   form.reset();
   renderTransactions();
@@ -64,6 +81,28 @@ transactionList.addEventListener('click', e => {
     transactions = transactions.filter(transaction => transaction.id !== transactionId);
     updateLocalStorage();
     renderTransactions();
+  }
+});
+transactionList.addEventListener('dblclick', e => {
+  e.preventDefault();
+
+  const item = e.target.closest('.transaction-item');
+
+  if (item) {
+    const btnDelete = item.querySelector('.btn-delete');
+    const transactionId = btnDelete.dataset.id;
+    const transaction = transactions.find(transaction => transaction.id === transactionId);
+
+    if (transaction) {
+      descInput.value = transaction.desc;
+      amountInput.value = transaction.amount;
+      typeInput.value = transaction.type;
+
+      editId = transactionId;
+      document.getElementById('add-btn').textContent = 'Update Transaction';
+
+      descInput.focus();
+    }
   }
 });
 
