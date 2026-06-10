@@ -26,10 +26,10 @@ const updateBalances = () => {
 };
 const renderTransactions = () => {
   const template = transactions.map(transaction => `
-    <li class="transaction-item ${transaction.type}">
+    <li class="transaction-item ${transaction.type}" title="Double click to edit">
       <span class="desc">${transaction.desc}</span>
       <span class="amount">${transaction.type === 'income' ? '+' : '-'}Rp${transaction.amount.toLocaleString('id-ID')},00</span>
-      <button class="btn-delete" data-id="${transaction.id}">&#x2715;</button>
+      <button class="btn-delete" data-id="${transaction.id}" title="Delete item">&#x2715;</button>
     </li>
   `).join('');
   transactionList.innerHTML = template || '<p class="empty-msg">No transactions yet.</p>';
